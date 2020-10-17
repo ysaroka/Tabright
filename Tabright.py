@@ -59,13 +59,13 @@ class TabrightListener(sublime_plugin.EventListener):
 	def process_tabs(self, view):
 		window = sublime.active_window()
 
-		if int(sublime.version()) < 3000:
-			is_preview = view.file_name() is not "None" and window and view.file_name() not in [file.file_name() for file in window.views()]
-			if is_preview:
-				if view.id() not in self.view_ids:
-					self.view_ids.append(view.id())
-				self.busy = False
-				return
+		# if int(sublime.version()) < 3000:
+		is_preview = view.file_name() is not "None" and window and view.file_name() not in [file.file_name() for file in window.views()]
+		if is_preview:
+			if view.id() not in self.view_ids:
+				self.view_ids.append(view.id())
+			self.busy = False
+			return
 
 		group, index = window.get_view_index(view)
 		views = window.views_in_group(group)
@@ -78,7 +78,7 @@ class TabrightListener(sublime_plugin.EventListener):
 			self.view_ids = []
 
 		for v in views:
-			if v.id() not in self.view_ids:				
+			if v.id() not in self.view_ids:
 				if self.files_only and (v.file_name() == None or v.file_name() == "None"):
 					pass
 				else:
